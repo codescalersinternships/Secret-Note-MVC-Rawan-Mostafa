@@ -1,6 +1,8 @@
 import uuid
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Note(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -11,3 +13,9 @@ class Note(models.Model):
     expiration = models.DateTimeField(null=True, blank=True)
     max_views = models.IntegerField(null=True, blank=True)  
     views = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.content
+    
+    def is_expired(self):
+        return self.expiration >= timezone.now()
