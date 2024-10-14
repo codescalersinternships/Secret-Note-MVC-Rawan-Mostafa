@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__/',include(debug_toolbar.urls)),
     path("notes/", include("note.urls")),
-    path('',views.home,name='home'),
+    path("accounts/", include("accounts.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),  
 
 ]

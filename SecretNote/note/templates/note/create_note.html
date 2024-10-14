@@ -1,12 +1,22 @@
-<form action="/notes/create/" method="post">
-    <label for="title">Title: </label>
-    <input id="title" type="text" name="title">
-    <br/>
-    <label for="content">Content: </label>
-    <textarea id="content" type="text" name="content"></textarea>
-    <label for="expiration">Expiration time: </label>
-    <input id="expiration" type="datetime-local" name="expiration">
-    <label for="max_views">Maximum number of views: </label>
-    <input id="max_views" type="number" name="max_views">
-    <input type="submit" value="OK">
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Note</title>
+</head>
+<body>
+    <form action="/notes/create/" method="post">
+        <label for="title">Title: </label>
+        <input id="title" type="text" name="title">
+        <br/>
+        <label for="content">Content: </label>
+        <textarea id="content" type="text" name="content"></textarea>
+        <label for="expiration">Expiration time: </label>
+        <input id="expiration" type="datetime-local" name="expiration">
+        <label for="max_views">Maximum number of views: </label>
+        <input id="max_views" type="number" name="max_views">
+        <input type="submit" value="OK">
+    </form> 
+</body>
+</html>

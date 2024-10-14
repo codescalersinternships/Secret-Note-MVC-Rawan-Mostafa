@@ -3,11 +3,8 @@ from django.http import Http404
 from django.http import HttpResponse
 from .models import Note
 from .forms import CreateNote
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 
-
-def home(request):
-    return HttpResponse("Welcome to Secret Note App!")
 
 def view_note(request,id):
     try:
