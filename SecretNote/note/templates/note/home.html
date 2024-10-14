@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Note</title>
+</head>
+<body>
+    {% csrf_token %}
+    
+    <form action="{% url 'signup' %}" method="get">
+        <button type="submit">Sign Up</button>
+    </form>
+    
+    <label>Already have an account?</label>
+
+    <form action="{% url 'login' %}" method="get">
+        <button type="submit">Log In</button>
+    </form>
+</body>
+</html>

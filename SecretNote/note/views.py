@@ -6,6 +6,8 @@ from .forms import CreateNote
 from django.contrib.auth.decorators import login_required
 
 
+def home(request):
+    return render(request, "note/home.html")
 
 def view_note(request,id):
     try:
