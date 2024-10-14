@@ -3,7 +3,8 @@ from django.http import Http404
 from django.http import HttpResponse
 from .models import Note
 from .forms import CreateNote
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+
 
 
 def view_note(request,id):
@@ -17,18 +18,19 @@ def create_note(request):
     if request.method == "POST":
         form = CreateNote(request.POST)
         if form.is_valid():
-            note = form.save()
+            note = form.save(commit=False)
             note.user = request.user 
             note.save()
-            print('valid create note request')
             return redirect('/')
-        else: 
-            print('invalid create note request')
         
     else:
         form = CreateNote()
-
-
     return render(request, "note/create_note.html", {"form": form})
 
+@login_required  
+def user_notes(request):
+    print(f"Current user: {request.user}")
+    notes = Note.objects.filter(user=request.user) 
+    print(f"Number of notes for user {request.user}: {notes.count()}")
+    return render(request, 'note/user_notes.html', {'notes': notes})
  

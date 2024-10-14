@@ -7,15 +7,19 @@
 </head>
 <body>
     <form action="/notes/create/" method="post">
+        {% csrf_token %}
         <label for="title">Title: </label>
         <input id="title" type="text" name="title">
         <br/>
         <label for="content">Content: </label>
-        <textarea id="content" type="text" name="content"></textarea>
+        <textarea id="content" name="content"></textarea>
+        <br/>
         <label for="expiration">Expiration time: </label>
         <input id="expiration" type="datetime-local" name="expiration">
+        <br/>
         <label for="max_views">Maximum number of views: </label>
         <input id="max_views" type="number" name="max_views">
+        <br/>
         <input type="submit" value="OK">
     </form> 
 </body>
