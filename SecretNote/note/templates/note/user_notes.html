@@ -10,10 +10,7 @@
         <ul>
             {% for note in notes %}
                 <li>
-                    <strong>{{ note.title }}</strong><br/>
-                    {{ note.content }}<br/>
-                    <small>Created: {{ note.created_at }}</small><br/>
-                    <small>Views: {{ note.views }} | Max Views: {{ note.max_views }}</small><br/>
+                    <h2>{{ note.title }}</h2>
                     <a href="{% url 'view_note' note.url_id %}">View Note</a>
                 </li>
                 <br/>

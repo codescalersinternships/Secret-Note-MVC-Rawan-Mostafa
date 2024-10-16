@@ -14,7 +14,7 @@ def view_note(request,id):
         note = Note.objects.get(url_id=id)
     except Note.DoesNotExist:
         raise Http404("This note doesn't exist")
-    return HttpResponse(note)
+    return render(request, 'note/view_note.html', {'note': note})
 
 def create_note(request):
     if request.method == "POST":
