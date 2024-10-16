@@ -36,9 +36,9 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
-    }
-    .submit-btn a{
         color: white;
+    }
+    a{
         text-decoration: none;
     }
 
@@ -54,7 +54,7 @@
         {% for note in notes %}
         <li class="note">
             <h2 class="title">{{ note.title }}</h2>
-            <button class="submit-btn"><a href="{% url 'view_note' note.url_id %}">View Note</a></button>
+            <a href="{% url 'view_note' note.url_id %}"><button class="submit-btn">View Note</button></a>
         </li>
         <br />
         {% endfor %}
@@ -62,7 +62,7 @@
     {% else %}
     <p>You have no notes.</p>
     {% endif %}
-    <button class="submit-btn"><a href="{% url 'create_note' %}">Create Note</a></button>
+    <a href="{% url 'create_note' %}"><button class="submit-btn">Create Note</button></a>
 </body>
 
 </html>
