@@ -11,7 +11,7 @@ class Note(models.Model):
     url_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True) 
     expiration = models.DateTimeField(null=True, blank=True)
-    max_views = models.IntegerField(null=True, blank=True)  
+    max_views = models.IntegerField(default=1)  
     views = models.IntegerField(default=0)
 
     def __str__(self):
