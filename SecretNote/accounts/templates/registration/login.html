@@ -4,13 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log in</title>
+    <style>
+        body{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .login{
+          width:fit-content;
+          border: 3px solid rgb(135, 75, 135);
+          border-radius:20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .title{
+          color: rgb(77, 42, 77);
+        }
+        .form-field {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .form-field input {
+            padding: 10px;
+            margin:20px;
+            font-size: 16px;
+            width: 60%;
+            border-radius: 5px;
+        }
+        .form-field label {
+          margin:20px;
+
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin:20px;
+            background-color: rgb(135, 75, 135);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color:rgb(61, 23, 61);
+        }
+    </style>
 </head>
 <body>
-    <h2>Log In</h2>
-    <form method="post">
-      {% csrf_token %}
-      {{ form }}
-      <button type="submit">Log In</button>
+    <h2 class="title">Log In</h2>
+    <form class="login" method="post">
+        {% csrf_token %}
+        
+        <div class="form-field">
+            {{ form.username.label_tag }}  
+            {{ form.username }}           
+            {{ form.username.errors }}     
+        </div>
+
+        <div class="form-field">
+            {{ form.password.label_tag }} 
+            {{ form.password }}           
+            {{ form.password.errors }}    
+        </div>
+        
+        <button class="submit-btn" type="submit">Log In</button>
     </form>
 </body>
 </html>

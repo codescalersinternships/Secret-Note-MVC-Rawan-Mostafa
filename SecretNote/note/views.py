@@ -32,7 +32,7 @@ def create_note(request):
             note = form.save(commit=False)
             note.user = request.user 
             note.save()
-            return redirect('/')
+            return redirect('/notes/')
         
     else:
         form = CreateNote()
@@ -40,8 +40,6 @@ def create_note(request):
 
 @login_required  
 def user_notes(request):
-    print(f"Current user: {request.user}")
     notes = Note.objects.filter(user=request.user) 
-    print(f"Number of notes for user {request.user}: {notes.count()}")
     return render(request, 'note/user_notes.html', {'notes': notes})
  
