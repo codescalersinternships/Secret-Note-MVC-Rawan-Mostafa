@@ -1,10 +1,13 @@
-from django.test import TestCase
+from django.test import TestCase,Client
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.urls import reverse
 from .models import Note
+from unittest.mock import patch
+
 class TestCreateNote(TestCase):
     def test_create_note(self):
+        self.client = Client(REMOTE_ADDR='192.127.0.1')
         get_user_model().objects.create_user(username='test_user', password='strong_password')
         data = {
             'username': 'test_user',
@@ -28,6 +31,7 @@ class TestCreateNote(TestCase):
 
 
     def test_note_max_views(self):
+        self.client = Client(REMOTE_ADDR='192.168.0.1')
         get_user_model().objects.create_user(username='test_user', password='strong_password')
         data = {
             'username': 'test_user',
@@ -51,6 +55,8 @@ class TestCreateNote(TestCase):
         self.assertNotIn(recent_note,response.context['notes'])
 
     def test_note_expiration(self):
+        self.client = Client(REMOTE_ADDR='192.168.0.1')
+
         get_user_model().objects.create_user(username='test_user', password='strong_password')
         data = {
             'username': 'test_user',
@@ -69,6 +75,5 @@ class TestCreateNote(TestCase):
         recent_note=Note.objects.latest('url_id')
 
         self.assertTrue(recent_note.is_expired())
-
-
         
+

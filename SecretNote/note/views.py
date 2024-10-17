@@ -5,7 +5,6 @@ from django.utils import timezone
 from .models import Note
 from .forms import CreateNote
 from django.contrib.auth.decorators import login_required
-from django_ratelimit.decorators import ratelimit
 
 
 def home(request):
@@ -25,7 +24,6 @@ def view_note(request,id):
 
     return render(request, 'note/view_note.html', {'note': note})
 
-@ratelimit(key='user_or_ip', rate='10/m')
 def create_note(request):
     if request.method == "POST":
         form = CreateNote(request.POST)
