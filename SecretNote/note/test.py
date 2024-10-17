@@ -25,7 +25,8 @@ class TestCreateNote(TestCase):
 
         recent_note=Note.objects.latest('url_id')
         self.assertIn(recent_note,response.context['notes'])
-        
+
+
     def test_note_max_views(self):
         get_user_model().objects.create_user(username='test_user', password='strong_password')
         data = {

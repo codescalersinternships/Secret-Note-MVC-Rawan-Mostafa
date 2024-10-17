@@ -1,7 +1,46 @@
-from django.test import TestCase
+from django.test import TestCase,Client
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 class TestSignup(TestCase):
+    def test_signup_rate_limited(self):
+        self.client = Client(REMOTE_ADDR='192.168.0.1')
+        data =[ {
+            'username': 'test_user1',
+            'password1': 'strong_password',
+            'password2': 'strong_password',
+        },
+        {
+            'username': 'test_user2',
+            'password1': 'strong_password',
+            'password2': 'strong_password',
+        },
+        {
+            'username': 'test_user3',
+            'password1': 'strong_password',
+            'password2': 'strong_password',        
+        },
+        {
+            'username': 'test_user4',
+            'password1': 'strong_password',
+            'password2': 'strong_password',        
+        },
+        {
+            'username': 'test_user5',
+            'password1': 'strong_password',
+            'password2': 'strong_password',
+        }]
+        for i in range(5):
+            response=self.client.post('/accounts/signup/', data=data[i])
+            self.assertEqual(response.status_code,302)
+
+        response = self.client.post('/accounts/signup/', 
+            data={
+            'username': 'test_user6',
+            'password1': 'strong_password',
+            'password2': 'strong_password',
+        })
+        self.assertEqual(response.status_code,403)
+
     def test_signup_correctly(self):
         data = {
             'username': 'test_user',
@@ -26,6 +65,7 @@ class TestSignup(TestCase):
             self.fail("Testcase should have failed due to incorrect password confirmation")  
         except get_user_model().DoesNotExist as e:
             self.assertEqual(str(e), "User matching query does not exist.")
+        
 
 class TestLogin(TestCase):
     def test_login_correctly(self):
