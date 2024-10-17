@@ -18,4 +18,5 @@ class Note(models.Model):
         return self.content
     
     def is_expired(self):
-        return self.expiration >= timezone.now()
+        return self.expiration and timezone.now() >= self.expiration
+    

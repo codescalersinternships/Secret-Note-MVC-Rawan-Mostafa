@@ -15,8 +15,7 @@ def view_note(request,id):
         note = Note.objects.get(url_id=id)
     except Note.DoesNotExist:
         raise Http404("This note doesn't exist")
-    
-    if((note.max_views<=note.views) or (note.expiration and note.expiration<=timezone.now())):
+    if((note.max_views <= note.views) or note.is_expired()):
         note.delete()
         return HttpResponse('This note has either expired or reached its maximum views and got deleted')
 
@@ -40,6 +39,6 @@ def create_note(request):
 
 @login_required  
 def user_notes(request):
-    notes = Note.objects.filter(user=request.user) 
+    notes = Note.objects.filter(user=request.user).exclude(expiration=timezone.now()) 
     return render(request, 'note/user_notes.html', {'notes': notes})
  
