@@ -19,6 +19,7 @@ class TestCreateNote(TestCase):
         data={
             'title':'unit test note',
             'content':'this is the unit test note for create note correctly test case',
+            'expiration':timezone.now() + timezone.timedelta(hours=1),
             'max_views':5
         }
         response=self.client.post('/notes/create/',data=data,follow=True)
@@ -43,7 +44,8 @@ class TestCreateNote(TestCase):
         data={
             'title':'unit test note [max_views]',
             'content':'this is the unit test note for create note deleted in maxviews is reached',
-            'max_views':3
+            'max_views':3,
+            'expiration':timezone.now() + timezone.timedelta(hours=1),
         }
         self.client.post('/notes/create/',data=data,follow=True)
 
@@ -68,12 +70,13 @@ class TestCreateNote(TestCase):
             'title':'unit test note [expiration]',
             'content':'this is the unit test note for create note deleted if expiration date is reached',
             'max_views':50,
-            'expiration':timezone.now() - timezone.timedelta(hours=1)
+            'expiration':timezone.now() - timezone.timedelta(hours=5)
         }
-        self.client.post('/notes/create/',data=data,follow=True)
+        
+        response=self.client.post('/notes/create/',data=data,follow=True)
 
-        recent_note=Note.objects.latest('url_id')
+        self.assertFalse(response.context['form'].is_valid())
+        self.assertIn('expiration', response.context['form'].errors)
 
-        self.assertTrue(recent_note.is_expired())
         
 

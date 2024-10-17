@@ -32,6 +32,8 @@ def create_note(request):
             note.user = request.user 
             note.save()
             return redirect('/notes/')
+        else:
+            return render(request, 'note/create_note.html', {'form': form})
         
     else:
         form = CreateNote()
