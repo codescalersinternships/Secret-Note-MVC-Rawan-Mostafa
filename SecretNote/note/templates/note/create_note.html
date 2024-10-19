@@ -55,7 +55,7 @@
 
     .form-field label {
         margin: 20px;
-        width: 150px;
+        width: 200px;
         font-size: larger;
     }
 
@@ -107,7 +107,7 @@
 
         <div class="form-field">
             <label for="expiration">Expiration time:</label>
-            <input id="expiration" type="datetime-local" name="expiration">
+            <input id="expiration" type="date" name="expiration">
         </div>
         {% if form.expiration.errors %}
         <ul class="errorlist">
@@ -128,7 +128,7 @@
         </ul>
         {% endif %}
 
-        <button class="submit-btn" type="submit">Create</button>
+        <button id="create-btn" class="submit-btn" type="submit">Create</button>
     </form>
 </body>
 

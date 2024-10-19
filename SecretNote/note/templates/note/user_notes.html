@@ -60,7 +60,7 @@
         {% endfor %}
     </ul>
     {% else %}
-    <p>You have no notes.</p>
+    <p id="no-notes">You have no notes.</p>
     {% endif %}
     <a href="{% url 'create_note' %}"><button id="create-note-btn" class="submit-btn">Create Note</button></a>
 </body>
