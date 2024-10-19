@@ -88,7 +88,8 @@
         <div class="form-field">
             {{ form.password2.label_tag }}
             {{ form.password2 }}
-            {{ form.password2.errors }}
+            <div id="error"> {{ form.password2.errors }}</div>
+           
         </div>
         
         <button class="submit-btn" type="submit">Sign Up</button>
