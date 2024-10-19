@@ -54,7 +54,7 @@
         {% for note in notes %}
         <li class="note">
             <h2 class="title">{{ note.title }}</h2>
-            <a href="{% url 'view_note' note.url_id %}"><button class="submit-btn">View Note</button></a>
+            <a href="{% url 'view_note' note.url_id %}"><button id="view-btn" class="submit-btn">View Note</button></a>
         </li>
         <br />
         {% endfor %}

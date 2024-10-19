@@ -4,12 +4,8 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from django.utils import timezone
 import random
 import string
-import time
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 def is_element_present_by_id(driver, id):
     try: driver.find_element(By.ID, id)
@@ -155,3 +151,28 @@ class EndToEndTests(LiveServerTestCase):
         
         assert "/notes/create" in self.driver.current_url
         assert is_element_present_by_classname(self.driver,"errorlist")
+
+
+    def test_delete_on_max_views(self):
+        self.signup(self.username,self.password,self.password)
+        self.login(self.username,self.password)
+
+        assert is_element_present_by_id(self.driver,"no-notes") is True
+
+        self.create_note("test-title","test-content","12/10/2024",3)
+
+        latest_note_button=self.driver.find_elements(By.ID,"view-btn")
+        latest_note_button[len(latest_note_button)-1].click()
+        views=self.driver.find_element(By.ID,"views")
+        assert views.text == "Views: 1"
+        self.driver.back()
+        latest_note_button[len(latest_note_button)-1].click()
+        views=self.driver.find_element(By.ID,"views")
+        assert views.text == "Views: 2"
+        self.driver.back()
+        latest_note_button[len(latest_note_button)-1].click()
+        views=self.driver.find_element(By.ID,"views")
+        assert views.text == "Views: 3"
+        self.driver.back()
+        latest_note_button[len(latest_note_button)-1].click()
+        assert self.driver.find_element(By.CSS_SELECTOR,"body") .text == "This note has either expired or reached its maximum views and got deleted"

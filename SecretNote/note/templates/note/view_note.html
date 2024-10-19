@@ -46,7 +46,8 @@
         <h1 class="title">{{ note.title }}</h1>
         <p class="content">{{ note.content }}</p>
         <small >Created: {{ note.created_at }}</small><br/>
-        <small >Views: {{ note.views }} | Max Views: {{ note.max_views }}</small><br/>
+        <small id="views">Views: {{ note.views }} </small><br/>
+         <small> Max Views: {{ note.max_views }}</small><br/>
     </div>
     
 </body>
