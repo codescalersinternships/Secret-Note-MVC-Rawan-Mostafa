@@ -1,6 +1,5 @@
 from django.test import TestCase,Client
 from django.contrib.auth import get_user_model
-from django.utils import timezone
 class TestSignup(TestCase):
     def test_signup_rate_limited(self):
         self.client = Client(REMOTE_ADDR='192.168.0.1')
@@ -18,13 +17,14 @@ class TestSignup(TestCase):
 
         response = self.client.post('/accounts/signup/', 
             data={
-            'username': 'test_user22',
+            'username': 'test_user26',
             'password1': 'strong_password',
             'password2': 'strong_password',
         })
         self.assertEqual(response.status_code,403)
 
     def test_signup_correctly(self):
+        self.client = Client(REMOTE_ADDR='192.127.0.1')
         data = {
             'username': 'test_user',
             'password1': 'strong_password',
@@ -36,6 +36,7 @@ class TestSignup(TestCase):
         self.assertIsNotNone(user)
 
     def test_signup_incorrectly(self):
+        self.client = Client(REMOTE_ADDR='192.127.0.1')
         data = {
             'username': 'test_user',
             'password1': 'strong_passworc',
@@ -52,6 +53,7 @@ class TestSignup(TestCase):
 
 class TestLogin(TestCase):
     def test_login_correctly(self):
+        self.client = Client(REMOTE_ADDR='192.127.0.1')
         user = get_user_model().objects.create_user(username='test_user', password='strong_password')
         data = {
             'username': 'test_user',
@@ -63,6 +65,7 @@ class TestLogin(TestCase):
         self.assertTrue(response.context['user'].is_authenticated)
 
     def test_login_incorrectly(self):
+        self.client = Client(REMOTE_ADDR='192.127.0.1')
         user = get_user_model().objects.create_user(username='test_user', password='strong_password')
         data = {
             'username': 'test_user',

@@ -5,7 +5,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from django.conf import settings
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.chrome.options import Options
 import random
 import string
 
@@ -29,39 +28,33 @@ class EndToEndTests(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        options = Options()
-        options.headless = True  
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-gpu")
-
-        cls.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-        cls.driver.implicitly_wait(10)
+        cls.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        cls.driver.implicitly_wait(1)
 
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
         super().tearDownClass()
 
-
     def setUp(self):
         self.username = f"testinguser_{''.join(random.choices(string.ascii_lowercase,k=8))}"
         self.password = "strong_password"
 
-    def signup(self,username,password1,password2):
-        self.driver.get(f"{self.live_server_url}/accounts/signup")
+    @classmethod
+    def signup(cls,username,password1,password2):
+        cls.driver.get(f"{cls.live_server_url}/accounts/signup")
 
-        username_field=self.driver.find_element(By.ID,"id_username")
+        username_field=cls.driver.find_element(By.ID,"id_username")
         username_field.send_keys(username)
 
-        password1_field=self.driver.find_element(By.ID,"id_password1")
+        password1_field=cls.driver.find_element(By.ID,"id_password1")
         password1_field.send_keys(password1)
 
-        password2_field=self.driver.find_element(By.ID,"id_password2")
+        password2_field=cls.driver.find_element(By.ID,"id_password2")
         password2_field.send_keys(password2)
 
 
-        button=self.driver.find_element(By.CLASS_NAME,"submit-btn")
+        button=cls.driver.find_element(By.CLASS_NAME,"submit-btn")
         button.click()
 
     def login(self,username,password):
@@ -100,13 +93,11 @@ class EndToEndTests(StaticLiveServerTestCase):
         self.signup(self.username,self.password,self.password)
         assert "/login" in self.driver.current_url
         assert is_element_present_by_id(self.driver,"login-title") is True
-        self.driver.close()
 
     def test_incorrect_signup(self):
         self.signup(self.username,self.password,"another_password")
         assert "/login" not in self.driver.current_url
         assert is_element_present_by_id(self.driver,"error") is True
-        self.driver.close()
 
     def test_correct_login(self):
         self.signup(self.username,self.password,self.password)
@@ -114,7 +105,6 @@ class EndToEndTests(StaticLiveServerTestCase):
         assert "/notes" in self.driver.current_url
         assert is_element_present_by_id(self.driver,"create-note-btn") is True
 
-        self.driver.close()
 
     def test_incorrect_username_login(self):
         self.signup(self.username,self.password,self.password)
@@ -123,7 +113,6 @@ class EndToEndTests(StaticLiveServerTestCase):
         assert "/notes" not in self.driver.current_url
         assert "/login" in self.driver.current_url
         assert is_element_present_by_id(self.driver,"create-note-btn") is False
-        self.driver.close()
 
     def test_incorrect_password_login(self):
         self.signup(self.username,self.password,self.password)
@@ -132,7 +121,6 @@ class EndToEndTests(StaticLiveServerTestCase):
         assert "/notes" not in self.driver.current_url
         assert "/login" in self.driver.current_url
         assert is_element_present_by_id(self.driver,"create-note-btn") is False
-        self.driver.close()
 
     def test_correct_create_note(self):
         self.signup(self.username,self.password,self.password)
