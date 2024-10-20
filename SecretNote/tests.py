@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
-from django.conf import settings
+from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 import random
 import string
@@ -28,7 +28,9 @@ class EndToEndTests(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        options = Options()
+        options.add_argument("--headless")
+        cls.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
         cls.driver.implicitly_wait(1)
 
     @classmethod
