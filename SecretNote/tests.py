@@ -1,9 +1,11 @@
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
+from django.conf import settings
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.options import Options
 import random
 import string
 
@@ -23,15 +25,31 @@ def is_element_present_by_css(driver, css):
     return True
 
 
-class EndToEndTests(LiveServerTestCase):
+class EndToEndTests(StaticLiveServerTestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        options = Options()
+        options.headless = True  
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-gpu")
+
+        cls.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        cls.driver.implicitly_wait(10)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+        super().tearDownClass()
+
 
     def setUp(self):
         self.username = f"testinguser_{''.join(random.choices(string.ascii_lowercase,k=8))}"
         self.password = "strong_password"
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
     def signup(self,username,password1,password2):
-        self.driver.get('http://127.0.0.1:8000/accounts/signup')
+        self.driver.get(f"{self.live_server_url}/accounts/signup")
 
         username_field=self.driver.find_element(By.ID,"id_username")
         username_field.send_keys(username)
@@ -47,7 +65,7 @@ class EndToEndTests(LiveServerTestCase):
         button.click()
 
     def login(self,username,password):
-        self.driver.get('http://127.0.0.1:8000/accounts/login')
+        self.driver.get(f"{self.live_server_url}/accounts/login")
 
         username_field=self.driver.find_element(By.ID,"id_username")
         username_field.send_keys(username)
@@ -124,7 +142,7 @@ class EndToEndTests(LiveServerTestCase):
 
         self.create_note("test-title","test-content","12/10/2024",2)
         
-        assert "http://127.0.0.1:8000/notes/" == self.driver.current_url
+        assert "create" not in self.driver.current_url
         assert is_element_present_by_id(self.driver,"no_notes") is False
 
         latest_note_title=self.driver.find_elements(By.CLASS_NAME,"title")

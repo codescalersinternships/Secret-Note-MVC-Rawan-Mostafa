@@ -4,38 +4,21 @@ from django.utils import timezone
 class TestSignup(TestCase):
     def test_signup_rate_limited(self):
         self.client = Client(REMOTE_ADDR='192.168.0.1')
-        data =[ {
-            'username': 'test_user1',
-            'password1': 'strong_password',
-            'password2': 'strong_password',
-        },
-        {
-            'username': 'test_user2',
-            'password1': 'strong_password',
-            'password2': 'strong_password',
-        },
-        {
-            'username': 'test_user3',
-            'password1': 'strong_password',
-            'password2': 'strong_password',        
-        },
-        {
-            'username': 'test_user4',
-            'password1': 'strong_password',
-            'password2': 'strong_password',        
-        },
-        {
-            'username': 'test_user5',
-            'password1': 'strong_password',
-            'password2': 'strong_password',
-        }]
-        for i in range(5):
+        data = [
+           {
+               'username': f'test_user{i}',
+               'password1': 'strong_password',
+               'password2': 'strong_password',
+           }
+           for i in range(1, 21)
+        ]
+        for i in range(len(data)):
             response=self.client.post('/accounts/signup/', data=data[i])
             self.assertEqual(response.status_code,302)
 
         response = self.client.post('/accounts/signup/', 
             data={
-            'username': 'test_user6',
+            'username': 'test_user22',
             'password1': 'strong_password',
             'password2': 'strong_password',
         })
