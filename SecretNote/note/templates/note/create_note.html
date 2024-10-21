@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Note</title>
+</head>
+<style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(255, 240, 220);
+    }
+
+    .create-form {
+        width: fit-content;
+        border: 3px solid rgb(135, 75, 135);
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(231, 212, 186);
+    }
+
+    .title {
+        color: rgb(77, 42, 77);
+    }
+
+    .form-field {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form-field input,
+    textarea {
+        padding: 10px;
+        margin: 20px;
+        font-size: 16px;
+        width: 60%;
+        border-radius: 5px;
+    }
+
+    .form-field label {
+        margin: 20px;
+        width: 200px;
+        font-size: larger;
+    }
+
+    .submit-btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 20px;
+        background-color: rgb(135, 75, 135);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        background-color: rgb(61, 23, 61);
+    }
+</style>
+
+<body>
+    <h1 class="title">Create new note</h1>
+    <form class="create-form" action="/notes/create/" method="post">
+        {% csrf_token %}
+
+        <div class="form-field">
+            <label for="title">Title:</label>
+            <input id="title" type="text" name="title">
+        </div>
+
+        {% if form.title.errors %}
+        <ul class="errorlist">
+            {% for error in form.title.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="form-field">
+            <label for="content">Content:</label>
+            <textarea id="content" name="content"></textarea>
+        </div>
+        {% if form.content.errors %}
+        <ul class="errorlist">
+            {% for error in form.content.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="form-field">
+            <label for="expiration">Expiration time:</label>
+            <input id="expiration" type="date" name="expiration">
+        </div>
+        {% if form.expiration.errors %}
+        <ul class="errorlist">
+            {% for error in form.expiration.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="form-field">
+            <label for="max_views">Maximum number of views:</label>
+            <input id="max_views" type="number" name="max_views">
+        </div>
+        {% if form.max_views.errors %}
+        <ul class="errorlist">
+            {% for error in form.max_views.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <button id="create-btn" class="submit-btn" type="submit">Create</button>
+    </form>
+</body>
+
+</html>

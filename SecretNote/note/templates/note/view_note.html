@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note</title>
+</head>
+<style>
+    html, body {
+           height: 100%;
+           margin: 0;
+       }
+       body{
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         background-color: rgb(255, 240, 220);
+       }
+
+       .hero{
+         width:fit-content;
+         max-width: 80%;
+         padding: 20px;
+         border: 3px solid rgb(135, 75, 135);
+         border-radius:20px;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: center;
+         background-color: rgb(231, 212, 186);
+         word-wrap: break-word;
+       }
+
+       p{
+        font-size: large;
+        width: 80%;
+       }
+
+       .title{
+         color: rgb(77, 42, 77);
+       }
+</style>
+<body>
+    <div class="hero">
+        <h1 class="title">{{ note.title }}</h1>
+        <p class="content">{{ note.content }}</p>
+        <small >Created: {{ note.created_at }}</small><br/>
+        <small id="views">Views: {{ note.views }} </small><br/>
+         <small> Max Views: {{ note.max_views }}</small><br/>
+    </div>
+    
+</body>
+</html>

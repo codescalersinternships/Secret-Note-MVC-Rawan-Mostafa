@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Your Notes</title>
+</head>
+<style>
+
+    body {
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(255, 240, 220);
+    }
+
+    .note {
+        width: 300px;
+        border: 3px solid rgb(135, 75, 135);
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(231, 212, 186);
+    }
+
+    .title {
+        color: rgb(77, 42, 77);
+    }
+
+    .submit-btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 20px;
+        width: fit-content;
+        background-color: rgb(135, 75, 135);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+    }
+    a{
+        text-decoration: none;
+    }
+
+    .submit-btn:hover {
+        background-color: rgb(61, 23, 61);
+    }
+</style>
+
+<body>
+
+    {% if notes %}
+    <ul class="notes">
+        {% for note in notes %}
+        <li class="note">
+            <h2 class="title">{{ note.title }}</h2>
+            <a href="{% url 'view_note' note.url_id %}"><button id="view-btn" class="submit-btn">View Note</button></a>
+        </li>
+        <br />
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p id="no-notes">You have no notes.</p>
+    {% endif %}
+    <a href="{% url 'create_note' %}"><button id="create-note-btn" class="submit-btn">Create Note</button></a>
+</body>
+
+</html>
