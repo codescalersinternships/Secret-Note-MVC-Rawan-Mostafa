@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Note</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background-color: rgb(255, 240, 220);
+        }
+        .hero{
+          width:fit-content;
+          border: 3px solid rgb(135, 75, 135);
+          border-radius:20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background-color: rgb(231, 212, 186);
+        }
+
+        .title{
+          color: rgb(77, 42, 77);
+          margin: 10px;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin:20px;
+            background-color: rgb(135, 75, 135);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color:rgb(61, 23, 61);
+        }
+    </style>
+</head>
+<body>
+    {% csrf_token %}
+    <div class="hero"> 
+        <h1 class="title">Welcome to Secret Note App!</h1>
+        <form action="{% url 'signup' %}" method="get">
+            <button class="submit-btn" type="submit">Sign Up</button>
+        </form>
+        
+        <h3>Already have an account?</h3>
+    
+        <form action="{% url 'login' %}" method="get">
+            <button class="submit-btn" type="submit">Log In</button>
+        </form>
+    </div>
+</body>
+</html>
